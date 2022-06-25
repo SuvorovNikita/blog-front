@@ -6,7 +6,7 @@ export const featchPosts = createAsyncThunk('posts/featchPosts', async () => {
   return data;
 });
 
-export const featchTags = createAsyncThunk('posts/featchPosts', async () => {
+export const featchTags = createAsyncThunk('posts/featchTags', async () => {
   const { data } = await axios.get('/tags');
   return data;
 });
@@ -38,6 +38,18 @@ const postsSlice = createSlice({
     [featchPosts.rejected]: (state) => {
       state.posts.items = [];
       state.posts.status = 'error';
+    },
+    [featchTags.pending]: (state) => {
+      state.tags.items = [];
+      state.tags.status = 'loading';
+    },
+    [featchTags.fulfilled]: (state, action) => {
+      state.tags.items = action.payload;
+      state.tags.status = 'loaded';
+    },
+    [featchTags.rejected]: (state) => {
+      state.tags.items = [];
+      state.tags.status = 'error';
     },
   },
 });
